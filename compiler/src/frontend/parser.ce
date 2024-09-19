@@ -1,0 +1,16 @@
+import frontend/ast.ce
+import frontend/lexer.ce
+import core/io.ce
+
+export
+ast.ModuleDefinition parse_text(String filename, String text) {
+	let lx = lexer.lexer(text)
+	let token = lx.next_token()
+
+	if token case lexer.Import(let filename) {
+		io.print("Got Import token, filename:")
+		io.print(filename)
+		io.print("\n")
+	}
+	return ast.ModuleDefinition(filename, [])
+}

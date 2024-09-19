@@ -1,0 +1,28 @@
+export
+type Token {
+    Import(String filename)
+    
+    EndOfFile()
+    
+    TokenError(String text)
+}
+
+export
+Lexer lexer(String text) {
+    return Lexer(text, 0, 0, 0)
+}
+
+export
+Token next_token(Lexer* lexer) {
+    if lexer.text case /(\bimport\b)[ ]+(?<filename>[^ ]+)/ {
+        return Import(filename)
+    }
+    return TokenError("How do we skip to the next token?")
+}
+
+export
+type Lexer(String text,
+           int index,
+           int line,
+           int column)
+

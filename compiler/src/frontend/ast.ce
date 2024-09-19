@@ -1,0 +1,13 @@
+
+
+
+export
+type ModuleDefinition(String filename, Definition[] definitions)
+
+export
+type Definition {
+	FunctionDefinition()
+	TypeDefinition()
+	ImportDefinition(String filename, String namespace)
+	GlobalVariableDefinition()
+}

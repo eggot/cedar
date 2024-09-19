@@ -1,0 +1,6 @@
+import stdio.h
+import frontend/parser.ce
+
+int main(int argc, byte** argv) {
+	let module = parser.parse_text("test.ce", "import foo/bar.ce")
+}
