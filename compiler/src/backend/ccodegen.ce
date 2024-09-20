@@ -1,0 +1,67 @@
+import core/io.ce
+import stdio.h
+import backend/ir.ce
+
+
+void emit_type(ir.Type ty) {
+	if ty case ir.IntegerType(let bits, true) {
+		stdio.printf("u%d", bits)
+	} else
+	if ty case ir.IntegerType(let bits, false) {
+		stdio.printf("i%d", bits)
+	} else
+	if ty case ir.FloatType(32) {
+		stdio.printf("float")
+	} else
+	if ty case ir.FloatType(64) {
+		stdio.printf("double")
+	}
+}
+
+void emit_expr(implicit ir.Expr[] exprs, int reg) {
+	let expr = exprs[reg]
+	io.print("(")
+	if expr case ir.LoadInt(let i) {
+		stdio.printf("%ld", i)
+    } else
+    if expr case ir.LoadLocal(let name) {
+        io.print(name)
+    } else
+    if expr case ir.Add(let lhs, let rhs) {
+        emit_expr(lhs)
+        io.print(" + ")
+        emit_expr(rhs)
+    } else { 
+        assert false
+    }
+	io.print(")")
+}
+
+void emit_stmts(ir.Instructions instrs) {
+	for i in 0..instrs.stmts.length {
+		let stmt = instrs.stmts[i]
+
+		if stmt case ir.ReturnValue(let reg) {
+			io.print("    return ")
+			emit_expr(instrs.exprs, reg)
+			io.print(";\n")
+		}
+	}
+}
+
+export
+void emit(ir.FunctionDefinition fn) {
+	emit_type(fn.retty)
+	io.print(" ")
+	io.print(fn.name)
+	io.print("(")
+	for i in 0..fn.argtys.length {
+		if i > 0 { io.print(", ") }
+		emit_type(fn.argtys[i])
+		io.print(" ")
+		io.print(fn.argnames[i])
+	}
+	io.print(") {\n")
+	emit_stmts(fn.body)
+	io.print("}\n")
+}

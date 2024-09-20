@@ -1,6 +1,24 @@
 import stdio.h
 import frontend/parser.ce
 
+import backend/ir.ce
+import backend/ccodegen.ce
+
 int main(int argc, byte** argv) {
 	let module = parser.parse_text("test.ce", "import foo/bar.ce")
+
+	let i32_ty = ir.IntegerType(32, true)
+
+	let exprs = [
+		ir.LoadLocal("arg0"), // 0
+		ir.LoadInt(1),        // 1
+		ir.Add(0, 1),         // 2
+	]
+	let stmts = [
+		ir.ReturnValue(2)
+	]
+	let function = ir.FunctionDefinition(i32_ty, "inc", [i32_ty], ["arg0"], ir.Instructions(stmts, exprs))
+	
+
+	ccodegen.emit(function)
 }

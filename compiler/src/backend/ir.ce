@@ -1,0 +1,45 @@
+
+export
+type Type {
+	IntegerType(u8 bits, bool signed)
+	FloatType(u8 bits)
+}
+
+export
+type FunctionDefinition(Type retty, String name, Type[] argtys, String[] argnames, Instructions body)
+
+export
+type Instructions(Stmt[] stmts, Expr[] exprs)
+
+export
+type Expr {
+	LoadInt(i64 value)
+	LoadUInt(u64 value)
+    
+	Add(u16 lhs, u16 rhs)
+	Sub(u16 lhs, u16 rhs)
+	Mul(u16 lhs, u16 rhs)
+	Div(u16 lhs, u16 rhs)
+	Mod(u16 lhs, u16 rhs)
+	
+	BitAnd(u16 lhs, u16 rhs)
+	BitOr(u16 lhs, u16 rhs)
+	BitXor(u16 lhs, u16 rhs)
+	
+	CmpLt(u16 lhs, u16 rhs)
+	CmpLe(u16 lhs, u16 rhs)
+	CmpEq(u16 lhs, u16 rhs)
+	CmpNe(u16 lhs, u16 rhs)
+	CmpGe(u16 lhs, u16 rhs)
+	CmpGt(u16 lhs, u16 rhs)
+	
+	LoadLocal(String name)
+}
+
+export
+type Stmt {
+	DeclareLocal(Type ty, String name)
+	StoreLocal(String name, u16 value)
+	ReturnValue(u16 value)
+}
+
